@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/schema"
 	"github.com/spf13/viper"
 	"io/ioutil"
 	"net/http"
@@ -31,12 +32,12 @@ type ImgurConfig struct {
 }
 
 type ImgurUploadBody struct {
-	Image       []byte `json:"image"`
-	Album       string `json:"album,omitempty"`
-	Type        string `json:"type,omitempty"`
-	Name        string `json:"name,omitempty"`
-	Title       string `json:"title,omitempty"`
-	Description string `json:"description,omitempty"`
+	Image       []byte `json:"image" schema:"image,required"`
+	Album       string `json:"album,omitempty" schema:"album"`
+	Type        string `json:"type,omitempty" schema:"type"`
+	Name        string `json:"name,omitempty" schema:"name"`
+	Title       string `json:"title,omitempty" schema:"title"`
+	Description string `json:"description,omitempty" schema:"description"`
 }
 
 type ImgurResponse struct {
@@ -75,7 +76,10 @@ type ImgurErrorResponse struct {
 func (iu *ImgurUploader) Upload(iub ImgurUploadBody) (result *ImgurResponse, err error) {
 	result = &ImgurResponse{}
 
-	form := url.Values{"image": {base64.StdEncoding.EncodeToString(iub.Image)}}
+	var encoder = schema.NewEncoder()
+	form := url.Values{}
+	encoder.Encode(iub, form)
+	form.Set("image", base64.StdEncoding.EncodeToString(iub.Image))
 
 	req, err := http.NewRequest(http.MethodPost, iu.Config.UploadUrl, strings.NewReader(form.Encode()))
 	if err != nil {
