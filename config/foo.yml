@@ -1,0 +1,5 @@
+ClientID: "e04557eb4a298af"
+ClientSecret: "da53a3bc13e025d303423a3c878269baf1f76f4a"
+GenTokenUrl: "https://api.imgur.com/oauth2/token"
+AuthorizationUrl: "https://api.imgur.com/oauth2/authorize"
+UploadUrl: "https://api.imgur.com/3/upload"
