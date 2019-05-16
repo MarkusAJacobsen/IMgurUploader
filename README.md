@@ -27,6 +27,9 @@ func main() {
 
 	body := ImgurUploadBody{
 		Image: b,
+		Title:       "Test image",
+		Name:        "test.jpg",
+		Description: "This is a description",
 	}
 
 	res, err := iu.Upload(body)
