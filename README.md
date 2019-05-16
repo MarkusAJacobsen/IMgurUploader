@@ -2,8 +2,6 @@
 
 #### Example usage 
 ``` golang
-package example
-
 import (
 	"encoding/json"
 	"fmt"
