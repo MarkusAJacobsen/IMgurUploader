@@ -73,6 +73,16 @@ type ImgurErrorResponse struct {
 	Method  string `json:"method"`
 }
 
+func GetDefaultUploader() ImgurUploader {
+	return ImgurUploader{
+		Config: ImgurConfig{
+			UploadUrl:        "https://api.imgur.com/3/image",
+			GenTokenUrl:      "https://api.imgur.com/oauth2/token",
+			AuthorizationUrl: "https://api.imgur.com/oauth2/authorize",
+		},
+	}
+}
+
 func (iu *ImgurUploader) Upload(iub ImgurUploadBody) (result *ImgurResponse, err error) {
 	result = &ImgurResponse{}
 
