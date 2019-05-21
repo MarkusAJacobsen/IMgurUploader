@@ -1,7 +1,6 @@
 package imgurUploader
 
 import (
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/schema"
@@ -31,8 +30,9 @@ type ImgurConfig struct {
 	UploadUrl        string
 }
 
+// Image string in base64
 type ImgurUploadBody struct {
-	Image       []byte `json:"image" schema:"image,required"`
+	Image       string `json:"image" schema:"image,required"`
 	Album       string `json:"album,omitempty" schema:"album"`
 	Type        string `json:"type,omitempty" schema:"type"`
 	Name        string `json:"name,omitempty" schema:"name"`
@@ -89,7 +89,7 @@ func (iu *ImgurUploader) Upload(iub ImgurUploadBody) (result *ImgurResponse, err
 	var encoder = schema.NewEncoder()
 	form := url.Values{}
 	encoder.Encode(iub, form)
-	form.Set("image", base64.StdEncoding.EncodeToString(iub.Image))
+	form.Set("image", iub.Image)
 
 	req, err := http.NewRequest(http.MethodPost, iu.Config.UploadUrl, strings.NewReader(form.Encode()))
 	if err != nil {

@@ -25,12 +25,13 @@ func main() {
 		return
 	}
 
-	body := ImgurUploadBody{
-		Image: b,
-		Title:       "Test image",
-		Name:        "test.jpg",
-		Description: "This is a description",
-	}
+	bEnc := base64.StdEncoding.EncodeToString(b)
+        body := imgurUploader.ImgurUploadBody{
+            Image: bEnc,
+            Title:       "Test image",
+            Name:        "test.jpg",
+            Description: "This is a description",
+        }
 
 	res, err := iu.Upload(body)
 	if err != nil {
